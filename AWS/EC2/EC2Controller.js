@@ -4,6 +4,7 @@ const {
   DescribeSecurityGroupsCommand,
 } = require("@aws-sdk/client-ec2");
 const credentials = require("../../Credentials");
+const DangerRuleset = require("./SGRuleset");
 const client = new EC2Client(credentials);
 
 exports.listEc2Instances = async (req, res) => {
@@ -12,7 +13,7 @@ exports.listEc2Instances = async (req, res) => {
     const data = await client.send(new DescribeInstancesCommand(params));
     return res.json({ data, isSuccess: true }).status(200);
   } catch (err) {
-    return res.json({ error: err, isSuccess: false });
+    return res.json({ error: err, isSuccess: false, path: req.url });
   }
 };
 
@@ -22,6 +23,18 @@ exports.listSecurityGroups = async (req, res) => {
     const data = await client.send(new DescribeSecurityGroupsCommand(params));
     return res.json({ data, isSuccess: true }).status(200);
   } catch (err) {
-    return res.json({ error: err, isSuccess: false });
+    return res.json({ error: err, isSuccess: false, path: req.url });
+  }
+};
+
+exports.ScanSG_Mysql = async (req, res) => {
+  const params = {
+    Filters: DangerRuleset.mysql,
+  };
+  try {
+    const data = await client.send(new DescribeSecurityGroupsCommand(params));
+    return res.json({ data, isSuccess: true }).status(200);
+  } catch (err) {
+    return res.json({ error: err, isSuccess: false, path: req.url });
   }
 };

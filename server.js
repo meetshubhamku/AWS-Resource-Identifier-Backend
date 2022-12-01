@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const app = express();
 const EC2Router = require("./AWS/EC2/EC2Router");
 const s3Router = require("./AWS/S3/S3Router");
+const IAMRouter = require("./AWS/IAM/IAMRouter");
 const cors = require("cors");
 const port = 3001;
 app.use(morgan("dev"));
@@ -11,6 +12,7 @@ require("dotenv").config();
 
 app.use("/api", s3Router);
 app.use("/api", EC2Router);
+app.use("/api", IAMRouter);
 
 app.get("/", async (req, res) => {
   res.send("Hello World");

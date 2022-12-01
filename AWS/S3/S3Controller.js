@@ -14,7 +14,7 @@ exports.listBuckets = async (req, res) => {
     const data = await client.send(new ListBucketsCommand(params));
     return res.json({ data, isSuccess: true }).status(200);
   } catch (err) {
-    return res.json({ error: err, isSuccess: false });
+    return res.json({ error: err, isSuccess: false, path: req.url });
   }
 };
 
@@ -26,6 +26,6 @@ exports.getBucketAcl = async (req, res) => {
     const data = await client.send(new GetBucketAclCommand(params));
     res.json({ data, isSuccess: true }).status(200);
   } catch (err) {
-    res.json({ error: err, isSuccess: false });
+    res.json({ error: err, isSuccess: false, path: req.url });
   }
 };
