@@ -27,10 +27,11 @@ exports.listSecurityGroups = async (req, res) => {
   }
 };
 
-exports.ScanSG_Mysql = async (req, res) => {
+exports.ScanSG = async (req, res) => {
   const params = {
-    Filters: DangerRuleset.mysql,
+    // Filters: [],
   };
+
   try {
     const data = await client.send(new DescribeSecurityGroupsCommand(params));
     return res.json({ data, isSuccess: true }).status(200);
